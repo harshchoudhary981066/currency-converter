@@ -1,4 +1,6 @@
-import React from 'react'
+//{useId} is a React Hook for generating unique IDs that can be passed to accessibility attributes. Will be used to
+//provide keys to currency values
+import React, {useId} from 'react'
 
 function InputBox({
     label,
@@ -27,7 +29,8 @@ function InputBox({
                     placeholder="Amount"
                     disabled={amountDisable}
                     value={amount}
-                    onChange={(e) => onAmountChange && onAmountChange(Number(e.target.value))}
+                    onChange={(e) => onAmountChange && onAmountChange(Number(e.target.value))} //Have to wrap it in number
+                    //because it returns string as a response and we need a number for "Amount". JavaScript by default does that.
                 />
             </div>
             <div className="w-1/2 flex flex-wrap justify-end text-right">
@@ -35,13 +38,15 @@ function InputBox({
                 <select
                     className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
                     value={selectCurrency}
+                //Since the value of currency is going to be a string, it e.targert.value does not need to be converted to anything
                     onChange={(e) => onCurrencyChange && onCurrencyChange(e.target.value)}
                     disabled={currencyDisable}
                 >
                     
                     {/* */}
                         {currencyOptions.map((currency) => (
-                            //while implementing loop, giving a 'key' is important for performance reasons
+                            //while implementing loop, giving a 'key' is imporant so the the ReactDOM knows what
+                            //value is it operating with in the loop and prevents rendering it if already rendered
                             <option key={currency} value={currency}>
                             {currency}
                             </option>
